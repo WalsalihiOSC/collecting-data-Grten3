@@ -20,7 +20,7 @@ class Data_GUI:
         Label(main,text="Do you have a mobile Phone?").grid(row=3,column=0,padx=5,pady=10)
         
 
-        r = 4
+        r = 3
         for i in(Processing.yeah_na):
             Radiobutton(main, text=i, value=i).grid(column=1, row=r, sticky=W,pady=5)
             r += 1
