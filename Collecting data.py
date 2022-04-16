@@ -1,17 +1,12 @@
 #Collecting data 
-
-
-
-from ast import Pass
 from tkinter import *
 
-
+#GUI class
 class Data_GUI:
     def __init__(self,parent): 
+        #Enter DATA GUI    
         Data_GUI.main_1 = Frame(parent)
         Data_GUI.main_1.grid()
-       
-
         
         Processing.setup(self)
        
@@ -39,7 +34,7 @@ class Data_GUI:
         Data_GUI.error_message = Label(Data_GUI.main_1,fg="red")
         Data_GUI.error_message.grid(padx=5,pady=5,columnspan=2)
 
-#Show DATA Frame ********
+        #Show DATA GUI 
 
         Data_GUI.main_2 = Frame(parent)
         Data_GUI.main_2.grid()
@@ -70,15 +65,16 @@ class Data_GUI:
         
       
 
-        
+#This class processes all the data provided by the GUI class   
 class Processing:
+    #Setting up lists and variables
     def setup(self):
         Processing.i = 0 
         Processing.data =[]
         Processing.selected_option = StringVar()
         Processing.yeah_na = ["Yes", "No"]
 
-    
+    #check if user has input all information and append them to the data list
     def user_data():
         if len(Data_GUI.name.get()) == 0 or len(Data_GUI.age.get()) == 0 or len(Processing.selected_option.get()) == 0: 
             Data_GUI.error_message.configure(text = "*Please fill in all the info")
@@ -95,7 +91,7 @@ class Processing:
             Processing.selected_option.set(0)
 
 
-
+    #Switches to the "show data" GUI 
     def show():
         Data_GUI.main_1.grid_forget()
         Data_GUI.main_2.grid()
@@ -104,18 +100,15 @@ class Processing:
 
         if Processing.data[Processing.i + 2] == "Yes":
             Data_GUI.has_phone.configure(text="{} has a Phone".format(Processing.data[Processing.i]))
-
-
-
         else: 
             Data_GUI.has_phone.configure(text="{} doesn't have a Phone".format(Processing.data[Processing.i]))
 
-
+    #switches to enter user data GUI
     def enter():
         Data_GUI.main_2.grid_forget()
         Data_GUI.main_1.grid()
 
-
+    #displays the next set of user data
     def next(): 
         try:
             Processing.i += 3
@@ -124,18 +117,14 @@ class Processing:
             Data_GUI.error_message_2.configure(text="")
             if Processing.data[Processing.i + 2] == "Yes":
                 Data_GUI.has_phone.configure(text="{} has a Phone".format(Processing.data[Processing.i]))
-
-
-
             else: 
                 Data_GUI.has_phone.configure(text="{} doesn't have a Phone".format(Processing.data[Processing.i]))
          
-
         except:
             Processing.i -= 3
             Data_GUI.error_message_2.configure(text="You've reach the end of the list")
 
-       
+    #displays the previous set of user data
     def previous():       
         if Processing.i != 0:
             Processing.i -= 3
@@ -154,22 +143,9 @@ class Processing:
         else:
             Data_GUI.error_message_2.configure(text="You've reach the end of the list")
 
-        print(Processing.i)
 
-        
-
-
-        
-        
-
-
-
-
-
-
-
+      
 root = Tk()
 root.title("Data Collector")
-
 Data_GUI(root)
 root.mainloop()
