@@ -2,6 +2,7 @@
 
 
 
+from ast import Pass
 from tkinter import *
 
 
@@ -45,7 +46,7 @@ class Data_GUI:
         Data_GUI.main_2.grid_forget()
 
         Label(Data_GUI.main_2,text="Displaying Personal Data").grid(row=0,column=0,padx=10,pady=30,sticky=E)
-        Button(Data_GUI.main_2,text="Add new Person",command=Processing.enter).grid(row=0,column=1,pady=30,padx=10)
+        Button(Data_GUI.main_2,text="Add new Person",command=Processing.enter).grid(row=0,column=1,pady=30,padx=10,sticky=E)
 
         Label(Data_GUI.main_2,text="First Name: ").grid(row=1,column=0,sticky=E)
         Data_GUI.show_name = Label(Data_GUI.main_2)
@@ -55,13 +56,14 @@ class Data_GUI:
         Data_GUI.show_age = Label(Data_GUI.main_2)
         Data_GUI.show_age.grid(row=2,column=1)
 
-        Label(Data_GUI.main_2,text="Do you have a mobile Phone?").grid(row=3,column=0,padx=5,pady=10,columnspan=2)
+        Data_GUI.has_phone = Label(Data_GUI.main_2,text="")
+        Data_GUI.has_phone.grid(row=3,column=0,padx=5,pady=15,columnspan=2)
 
         Button(Data_GUI.main_2,text="Previous",command=Processing.previous).grid(row=4,column=0,sticky=W,padx=10)
         Button(Data_GUI.main_2,text="Next",command=Processing.next).grid(row=4,column=1,sticky=E,padx=10)
 
         Data_GUI.error_message_2 = Label(Data_GUI.main_2,fg="red")
-        Data_GUI.error_message_2.grid(columnspan=2,row=5,column=0,padx=10)
+        Data_GUI.error_message_2.grid(columnspan=2,row=5,column=0,padx=10,pady=15)
 
         
         
@@ -100,43 +102,59 @@ class Processing:
         Data_GUI.show_name.configure(text=Processing.data[Processing.i])
         Data_GUI.show_age.configure(text=Processing.data[Processing.i + 1])
 
+        if Processing.data[Processing.i + 2] == "Yes":
+            Data_GUI.has_phone.configure(text="{} has a Phone".format(Processing.data[Processing.i]))
+
+
+
+        else: 
+            Data_GUI.has_phone.configure(text="{} doesn't have a Phone".format(Processing.data[Processing.i]))
+
+
     def enter():
         Data_GUI.main_2.grid_forget()
         Data_GUI.main_1.grid()
 
-    def next():
+
+    def next(): 
         try:
             Processing.i += 3
             Data_GUI.show_name.configure(text=Processing.data[Processing.i])
             Data_GUI.show_age.configure(text=Processing.data[Processing.i + 1])
             Data_GUI.error_message_2.configure(text="")
+            if Processing.data[Processing.i + 2] == "Yes":
+                Data_GUI.has_phone.configure(text="{} has a Phone".format(Processing.data[Processing.i]))
+
+
+
+            else: 
+                Data_GUI.has_phone.configure(text="{} doesn't have a Phone".format(Processing.data[Processing.i]))
+         
 
         except:
             Processing.i -= 3
             Data_GUI.error_message_2.configure(text="You've reach the end of the list")
 
-
-    def previous():
-        if Processing.i == 0:
-                Processing.i += 3
-
-        else:
-            pass
-
-        try:
+       
+    def previous():       
+        if Processing.i != 0:
             Processing.i -= 3
             Data_GUI.show_name.configure(text=Processing.data[Processing.i])
             Data_GUI.show_age.configure(text=Processing.data[Processing.i + 1])
-            Data_GUI.error_message_2.configure(text="")
-        
+            Data_GUI.error_message_2.configure(text="")     
+            if Processing.data[Processing.i + 2] == "Yes":
+                Data_GUI.has_phone.configure(text="{} has a Phone".format(Processing.data[Processing.i]))
+
+
+
+            else: 
+                Data_GUI.has_phone.configure(text="{} doesn't have a Phone".format(Processing.data[Processing.i]))
                 
-
-        except:
-            Processing.i += 3
+                       
+        else:
             Data_GUI.error_message_2.configure(text="You've reach the end of the list")
 
-
-        
+        print(Processing.i)
 
         
 
@@ -152,6 +170,6 @@ class Processing:
 
 root = Tk()
 root.title("Data Collector")
-root.geometry('395x310')
+
 Data_GUI(root)
 root.mainloop()
